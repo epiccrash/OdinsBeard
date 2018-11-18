@@ -104,7 +104,7 @@ public class PhysicsObject : MonoBehaviour
                 distance = modifiedDistance < distance ? modifiedDistance : distance;
             }
         }
-
+        //rb2d.MovePosition(move * distance);
         rb2d.position = rb2d.position + move.normalized * distance;
     }
 }

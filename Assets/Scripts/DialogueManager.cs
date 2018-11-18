@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour {
 
@@ -52,13 +53,23 @@ public class DialogueManager : MonoBehaviour {
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            if (Input.GetKey(KeyCode.Return))
+            {
+                yield return new WaitForSeconds(0.0f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(typingSpeed);
+            }
         }
     }
 
     void EndDialogue ()
     {
         Debug.Log("End of conversation");
+
+        // Insert transition logic here
+
+        SceneManager.LoadScene("level 1");
     }
-	
 }
