@@ -37,7 +37,7 @@ public class MovementScript : MonoBehaviour
     // Create distance, time, direction, attacking, and sword transform variables
     private float distance;
     private float swordTimer;
-    private bool isFacingRight;
+    public bool isFacingRight;
     private bool attacking;
     private bool holding;
     private Transform swordBox;
@@ -58,6 +58,8 @@ public class MovementScript : MonoBehaviour
 
     // (0, 0, 0)
     Vector2 curVel = Vector2.zero;
+
+    GameObject Projectile;
 
     // Use this for initialization
     void Start()
@@ -92,6 +94,8 @@ public class MovementScript : MonoBehaviour
         isJumping = false;
 
         rb.gravityScale = 20.0f;
+
+        Projectile = GameObject.Find("Projectile");
     }
 
     // Update is called once per frame
@@ -112,7 +116,9 @@ public class MovementScript : MonoBehaviour
             {
                 swordCollider.enabled = true;
                 attacking = true;
+                GameObject clone = Instantiate(Projectile, transform.position, Quaternion.identity);
             }
+                
         }
 
         // If the sword collider is enabled, rotate the sprite
@@ -243,5 +249,9 @@ public class MovementScript : MonoBehaviour
 
     private float DistanceToGround() {
         return 0;
+    }
+
+    private bool getDirection(){
+        return isFacingRight;
     }
 }
