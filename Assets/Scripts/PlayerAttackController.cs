@@ -10,11 +10,13 @@ public class PlayerAttackController : MonoBehaviour
 
     public bool attacking;
     public bool holding;
+    public bool pinwheeling;
 
     // Create distance, time, direction, attacking, and sword transform variables
     private float distance;
     private float timer;
     private Transform swordBox;
+    private Transform pinwheelBox;
 
     private SpriteRenderer spriteRenderer;
 
@@ -23,6 +25,7 @@ public class PlayerAttackController : MonoBehaviour
 
     // Create a variable to hold the collider of the sword
     private BoxCollider2D swordCollider;
+    private BoxCollider2D pinwheelCollider;
 
     // Create variables to track the current sword and target angles
     private float swordAngle;
@@ -31,6 +34,9 @@ public class PlayerAttackController : MonoBehaviour
     // Create variables to hold the original position and rotation of the sword
     private Vector3 originalPos;
     private Quaternion originalRot;
+
+    // Player Controller
+    private PlayerController playerController;
 
     // Use this for initialization
     void Start ()
@@ -42,13 +48,23 @@ public class PlayerAttackController : MonoBehaviour
         originalPos = swordBox.transform.localPosition;
         originalRot = swordBox.transform.rotation;
 
+        pinwheelBox = transform.Find("Pinwheel Box");
+
         // Initialize the sword box's collider and disable it
         swordCollider = swordBox.GetComponent<BoxCollider2D>();
         swordCollider.enabled = false;
 
+        // Initialize the pinwheel collider and disable it.
+        pinwheelCollider = pinwheelBox.GetComponent<BoxCollider2D>();
+        pinwheelCollider.enabled = false;
+
+        // Iinitialize PlayerController
+        playerController = GetComponent<PlayerController>();
+
         // Reset timer and variables
         timer = 0.0f;
         attacking = false;
+        pinwheeling = false;
         holding = false;
     }
 	
@@ -56,6 +72,7 @@ public class PlayerAttackController : MonoBehaviour
 	void Update ()
     {
         // If the player presses Enter, start attacking
+        // TODO: Add this button to the InputManager
         if (Input.GetKeyDown(KeyCode.Return))
         {
             // Set the collider to be enabled if it isn't already
@@ -65,6 +82,30 @@ public class PlayerAttackController : MonoBehaviour
                 attacking = true;
             }
         }
+        // Player is holding down Enter
+        else if (Input.GetKey(KeyCode.Return))
+        {
+            if (!playerController.grounded)
+            {
+                swordCollider.enabled = false;
+                attacking = false;
+
+                pinwheelCollider.enabled = true;
+                pinwheeling = true;
+            }
+            else
+            {
+                pinwheelCollider.enabled = false;
+                pinwheeling = false;
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Return))
+        {
+            pinwheelCollider.enabled = false;
+            pinwheeling = false;
+        }
+
 
         if (attacking)
         {

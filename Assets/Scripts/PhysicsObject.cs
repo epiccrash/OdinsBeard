@@ -6,11 +6,11 @@ public class PhysicsObject : MonoBehaviour
 {
     public float gravityModifier = 1f;
     public float minGroundNormalY = 0.65f;  // Normal at which slopes are considered standable.
+    public bool grounded;
 
     // Allow child classes to modify these.
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
-    protected bool grounded;
     protected Vector2 groundNormal;
     protected Vector2 targetVelocity;
 

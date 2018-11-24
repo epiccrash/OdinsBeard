@@ -24,6 +24,8 @@ public class PatrolAI : MonoBehaviour
         transform.Translate(Vector2.right * speed * Time.deltaTime);
         // move left when it reaches end of platform
         // (origin, direction, distance)
+
+        // TODO: Use RigidBody2D casting to avoid casting into player.
         RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 2f);
         bool grounded = groundInfo;
         if (groundInfo.collider == false)

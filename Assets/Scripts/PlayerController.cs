@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : PhysicsObject
 {
-    public int hp;
-    public int lives;
-    public bool alive;
-    private bool isHit;
+    public int hp = 3;
+    public int lives = 3;
+    public bool alive = true;
+    private bool isHit = false;
     private bool falling;
 
     private SpriteRenderer sp;
@@ -106,23 +106,30 @@ public class PlayerController : PhysicsObject
             }
 
             move.x = hAxis;
-
-            if (Input.GetButtonDown("Jump") && grounded)
-            {
-                velocity.y = jumpTakeOffSpeed;
-            }
-            else if (Input.GetButtonUp("Jump"))
-            {
-                // Reduce velocity if player stops holding jump.
-                if (velocity.y > 0)
-                {
-                    velocity.y = velocity.y * jumpDecrease;
-                    falling = true;
-                }
-            }
-
-            targetVelocity = move * maxSpeed;
         }
+
+        /* Note to Joey:
+         * I just moved this code block out of the deadband logic.
+         * I don't really know why it was in there, but the player couldn't
+         * jump unless they were moving. Let me know if it should be in there.
+         * --Nathan
+         */
+        if (Input.GetButtonDown("Jump") && grounded)
+        {
+            velocity.y = jumpTakeOffSpeed;
+        }
+        else if (Input.GetButtonUp("Jump"))
+        {
+            // Reduce velocity if player stops holding jump.
+            if (velocity.y > 0)
+            {
+                velocity.y = velocity.y * jumpDecrease;
+                falling = true;
+            }
+        }
+        /* End of code block I moved. */
+
+        targetVelocity = move * maxSpeed;
 
         if (velocity.y <= jumpTakeOffSpeed / 2)
         {
@@ -135,6 +142,7 @@ public class PlayerController : PhysicsObject
 
         animator.SetBool("alive", alive);
         animator.SetBool("attacking", attackController.attacking);
+        animator.SetBool("pinwheeling", attackController.pinwheeling);
         animator.SetBool("falling", falling);
         animator.SetBool("grounded", grounded);
         //animator.SetBool("hit", isHit);
@@ -150,6 +158,7 @@ public class PlayerController : PhysicsObject
     // Does nothing
     public void TakeDamage() {
 
+        Debug.Log("Took damage");
         hp--;
         if (hp == 0) {
             lives--;

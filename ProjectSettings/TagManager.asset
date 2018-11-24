@@ -7,6 +7,7 @@ TagManager:
   - Sword
   - Enemy
   - Trap
+  - Level Map
   layers:
   - Default
   - TransparentFX

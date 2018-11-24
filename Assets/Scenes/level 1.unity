@@ -466,6 +466,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 212458019121433942, guid: 9afd33d348e4b476ca774e2c21a1cdfd,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9afd33d348e4b476ca774e2c21a1cdfd, type: 2}
   m_IsPrefabAsset: 0
@@ -741,6 +746,11 @@ Prefab:
     - target: {fileID: 61022087963964350, guid: d717309ccbad96346b4eab703819096f,
         type: 2}
       propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61772340941692046, guid: d717309ccbad96346b4eab703819096f,
+        type: 2}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1281,7 +1291,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -5010,6 +5020,7 @@ MonoBehaviour:
   swordSpeed: 200
   attacking: 0
   holding: 0
+  pinwheeling: 0
 --- !u!114 &1693812088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5024,6 +5035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityModifier: 1
   minGroundNormalY: 0.65
+  grounded: 0
   hp: 0
   lives: 0
   alive: 0
