@@ -21,13 +21,18 @@ public class PhysicsObject : MonoBehaviour
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
 
+    private int downMask;
+    private int upMask;
+
     void OnEnable ()
     {
         rb2d = GetComponent<Rigidbody2D>();
 
         // Use the layer collisions defined in Unity for the current GameObject.
         contactFilter.useTriggers = false;
-        contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+        downMask = Physics2D.GetLayerCollisionMask(gameObject.layer);
+        upMask = downMask & (1 << 8);
+        contactFilter.SetLayerMask(downMask);
         contactFilter.useLayerMask = true;
 	}
 
@@ -66,7 +71,11 @@ public class PhysicsObject : MonoBehaviour
         float distance = move.magnitude;
         if (distance > minMoveDistance)
         {
-            // Get a list of all collisions 
+            // Get a list of all collisions
+            if (velocity.y > 0)
+                contactFilter.SetLayerMask(upMask);
+            else
+                contactFilter.SetLayerMask(downMask);
             int count = rb2d.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
 
             hitBufferList.Clear();
@@ -76,13 +85,13 @@ public class PhysicsObject : MonoBehaviour
             }
             for (int i = 0; i < hitBufferList.Count; i++)
             {
+                Debug.Log(hitBufferList[i].transform.gameObject.name);
                 Vector2 currentNormal = hitBufferList[i].normal;
                 if (currentNormal.y > minGroundNormalY)
                 {
                     grounded = true;  // Object will land on ground. 
                     if (yMovement)
                     {
-
                         // Prevent all movement along the x axis.
                         groundNormal = currentNormal;
                         currentNormal.x = 0;

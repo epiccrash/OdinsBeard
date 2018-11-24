@@ -26,7 +26,7 @@ public class PatrolAI : MonoBehaviour
         // (origin, direction, distance)
 
         // TODO: Use RigidBody2D casting to avoid casting into player.
-        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 2f);
+        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, 2f, LayerMask.GetMask("Enemy"));
         bool grounded = groundInfo;
         if (groundInfo.collider == false)
         {

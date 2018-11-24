@@ -469,9 +469,31 @@ Prefab:
     - target: {fileID: 212458019121433942, guid: 9afd33d348e4b476ca774e2c21a1cdfd,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 1880056177164616, guid: 9afd33d348e4b476ca774e2c21a1cdfd, type: 2}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750043938565728, guid: 9afd33d348e4b476ca774e2c21a1cdfd, type: 2}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1461797658543884, guid: 9afd33d348e4b476ca774e2c21a1cdfd, type: 2}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471325909802256, guid: 9afd33d348e4b476ca774e2c21a1cdfd, type: 2}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 50554691989238016, guid: 9afd33d348e4b476ca774e2c21a1cdfd,
+        type: 2}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 212921521535575528, guid: 9afd33d348e4b476ca774e2c21a1cdfd, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 9afd33d348e4b476ca774e2c21a1cdfd, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &925699954
@@ -902,9 +924,9 @@ GameObject:
   - component: {fileID: 1085197387}
   - component: {fileID: 1085197391}
   - component: {fileID: 1085197388}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tilemap (One Way)
-  m_TagString: Untagged
+  m_TagString: One Way
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -932,7 +954,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 51
+    m_Bits: 4294967295
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -1202,7 +1224,7 @@ GameObject:
   - component: {fileID: 1206092390}
   - component: {fileID: 1206092389}
   - component: {fileID: 1206092392}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hopper
   m_TagString: Enemy
   m_Icon: {fileID: 0}
