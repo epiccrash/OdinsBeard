@@ -7,6 +7,11 @@ TagManager:
   - Sword
   - Enemy
   - Trap
+  - Level Map
+  - Checkpoint
+  - Bound
+  - Projectile
+  - EnemySword
   layers:
   - Default
   - TransparentFX

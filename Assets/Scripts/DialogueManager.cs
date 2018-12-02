@@ -9,6 +9,7 @@ public class DialogueManager : MonoBehaviour {
     public Text nameText;
     public Text dialogueText;
     public float typingSpeed;
+    public string level;
 
     private Queue<string> sentences;
 
@@ -70,6 +71,6 @@ public class DialogueManager : MonoBehaviour {
 
         // Insert transition logic here
 
-        SceneManager.LoadScene("level 1");
+        SceneManager.LoadScene(level);
     }
 }

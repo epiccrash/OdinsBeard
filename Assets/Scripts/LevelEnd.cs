@@ -13,6 +13,11 @@ public class LevelEnd : MonoBehaviour {
     public string nextSceneName;
     public int startDelay;
     public string nextScene;
+
+    private int distTraveled;
+    //
+    private Vector3 originalPos;
+    private Vector3 scale;
     
 
     bool moveOff;
@@ -30,6 +35,9 @@ public class LevelEnd : MonoBehaviour {
         moveOff = true;
         moveOn = false;
         count = 0;
+        //
+        distTraveled = 0;
+        originalPos = transform.position;
     }
 	
 	// Update is called once per frame
@@ -53,16 +61,21 @@ public class LevelEnd : MonoBehaviour {
             }
             else
             {
-                if (blackScreen.transform.position.x < 150)
+                PlayerController script = player.GetComponent<PlayerController>();
+                script.enabled = true;
+                if (distTraveled < 150)
                 {
-                    blackScreen.transform.position += new Vector3(5, 0, 0);
+                    //blackScreen.transform.position += new Vector3(5, 0, 0);
+                    blackScreen.transform.position += new Vector3(30, 0, 0);
+                    distTraveled += 5;
                 }
                 else
                 {
-                    blackScreen.transform.position = new Vector3(-150, 0, 0);
+                    //blackScreen.transform.position = new Vector3(-150, 0, 0);
+                    blackScreen.transform.position = originalPos;
                     moveOff = false;
-                    PlayerController script = player.GetComponent<PlayerController>();
-                    script.enabled = true;
+                    //
+                    blackScreen.SetActive(false);
                 }
             }
         }
@@ -80,6 +93,6 @@ public class LevelEnd : MonoBehaviour {
                 SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
             }
         }
-		
-	}
+
+    }
 }

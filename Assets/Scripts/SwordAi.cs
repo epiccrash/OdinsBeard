@@ -11,7 +11,7 @@ public class SwordAi : MonoBehaviour {
     bool attacking;
     Transform sword;
     int count;
-    public int hp;
+    public float hp;
     public double radius;
     public float speed;
     public int swingDegreePerFrame;
@@ -42,7 +42,7 @@ public class SwordAi : MonoBehaviour {
         //Requires a child with the 'Sword' tag
         foreach(Transform child in transform)
         {
-            if (child.tag == "Sword")
+            if (child.tag == "EnemySword")
             {
                 sword = child;
             }
@@ -189,9 +189,26 @@ public class SwordAi : MonoBehaviour {
         return dist.magnitude;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Sword")
+        {
+            //print("AI Took damage");
+            hp--;
+        }
+        if (collision.gameObject.tag == "Projectile") {
+            print("AI Took Damage");
+            hp -= 0.5f;
+        }
+
+        if (hp < 0.5f) {
+            die();
+        }
+    }
+
+    /*private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Sword")
         {
             print("AI Took damage");
             hp--;
@@ -200,7 +217,7 @@ public class SwordAi : MonoBehaviour {
                 die();
             }
         }
-    }
+    }*/
 
     void die()
     {

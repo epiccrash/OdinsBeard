@@ -20,12 +20,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: pinwheeling
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   - m_Name: falling
     m_Type: 4
     m_DefaultFloat: 0
@@ -70,9 +64,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: attacking
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: pinwheeling
-    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: grounded
     m_EventTreshold: 0
@@ -86,39 +77,6 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 1
   m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
---- !u!1101 &1101141721213226844
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: alive
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: attacking
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: pinwheeling
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: grounded
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 1102592412780512298}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.2
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -215,9 +173,6 @@ AnimatorStateTransition:
     m_ConditionEvent: attacking
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: pinwheeling
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
     m_ConditionEvent: grounded
     m_EventTreshold: 0
   - m_ConditionMode: 2
@@ -306,9 +261,6 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: attacking
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: pinwheeling
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102028602917591862}
@@ -449,31 +401,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1102592412780512298
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: PlayerPinwheel
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ffbb0112e47d84085a65d5c73739515a, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1102 &1102847028891253360
 AnimatorState:
   serializedVersion: 5
@@ -537,7 +464,7 @@ AnimatorStateMachine:
     m_Position: {x: 1356, y: 204, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102862363920712132}
-    m_Position: {x: 1224, y: 516, z: 0}
+    m_Position: {x: 1236, y: 516, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102229308456017732}
     m_Position: {x: 1128, y: 432, z: 0}
@@ -546,16 +473,13 @@ AnimatorStateMachine:
     m_Position: {x: 1380, y: 576, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102847028891253360}
-    m_Position: {x: 1872, y: 444, z: 0}
+    m_Position: {x: 1644, y: 576, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102028602917591862}
-    m_Position: {x: 1872, y: 324, z: 0}
+    m_Position: {x: 1668, y: 420, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102022489554568054}
-    m_Position: {x: 1596, y: 228, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102592412780512298}
-    m_Position: {x: 1872, y: 384, z: 0}
+    m_Position: {x: 1620, y: 264, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 1101502658010708416}
@@ -564,7 +488,6 @@ AnimatorStateMachine:
   - {fileID: 1101854310123725130}
   - {fileID: 1101929121857209288}
   - {fileID: 1101582881161436496}
-  - {fileID: 1101141721213226844}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []

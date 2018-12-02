@@ -10,11 +10,14 @@ public class PlayerAttackController : MonoBehaviour
 
     public bool attacking;
     public bool holding;
+    public bool pinwheeling;
+    private bool fired;
 
     // Create distance, time, direction, attacking, and sword transform variables
     private float distance;
     private float timer;
     private Transform swordBox;
+    private Transform pinwheelBox;
 
     private SpriteRenderer spriteRenderer;
 
@@ -23,6 +26,7 @@ public class PlayerAttackController : MonoBehaviour
 
     // Create a variable to hold the collider of the sword
     private BoxCollider2D swordCollider;
+    private BoxCollider2D pinwheelCollider;
 
     // Create variables to track the current sword and target angles
     private float swordAngle;
@@ -31,6 +35,9 @@ public class PlayerAttackController : MonoBehaviour
     // Create variables to hold the original position and rotation of the sword
     private Vector3 originalPos;
     private Quaternion originalRot;
+
+    private PlayerController playerController;
+    public GameObject Projectile;
 
     // Use this for initialization
     void Start ()
@@ -42,6 +49,8 @@ public class PlayerAttackController : MonoBehaviour
         originalPos = swordBox.transform.localPosition;
         originalRot = swordBox.transform.rotation;
 
+        pinwheelBox = transform.Find("Pinwheel Box");
+
         // Initialize the sword box's collider and disable it
         swordCollider = swordBox.GetComponent<BoxCollider2D>();
         swordCollider.enabled = false;
@@ -49,21 +58,59 @@ public class PlayerAttackController : MonoBehaviour
         // Reset timer and variables
         timer = 0.0f;
         attacking = false;
+        pinwheeling = false;
         holding = false;
+        fired = false;
+
+        // Initialize the pinwheel collider and disable it.
+        pinwheelCollider = pinwheelBox.GetComponent<BoxCollider2D>();
+        pinwheelCollider.enabled = false;
+
+        playerController = GetComponent<PlayerController>();
+        //Projectile = GameObject.Find("Projectile");
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
         // If the player presses Enter, start attacking
+        // TODO: Add this button to the InputManager
         if (Input.GetKeyDown(KeyCode.Return))
         {
             // Set the collider to be enabled if it isn't already
-            if (!attacking && !holding)
+            if (playerController.grounded && !attacking && !holding)
             {
                 swordCollider.enabled = true;
                 attacking = true;
             }
+            if (attacking && playerController.hp == 3 && !fired)
+            {
+                GameObject clone = Instantiate(Projectile, transform.position, Quaternion.identity);
+                fired = true;
+            }
+        }
+        // Player is holding down Enter
+        else if (Input.GetKey(KeyCode.Return))
+        {
+            if (!playerController.grounded)
+            {
+                swordCollider.enabled = false;
+                attacking = false;
+
+                pinwheelCollider.enabled = true;
+                pinwheeling = true;
+                ResetSword();
+            }
+            else
+            {
+                pinwheelCollider.enabled = false;
+                pinwheeling = false;
+            }
+        }
+
+        if (playerController.grounded) {
+            pinwheelCollider.enabled = false;
+            pinwheeling = false;
         }
 
         if (attacking)
@@ -110,8 +157,15 @@ public class PlayerAttackController : MonoBehaviour
             {
                 ResetSword();
             }
-            // Increase the timer
-            timer += Time.deltaTime;
+            else
+            {
+                // Increase the timer
+                timer += Time.deltaTime;
+            }
+        }
+
+        if (pinwheeling && playerController.grounded) {
+            playerController.animator.Rebind();
         }
     }
 
@@ -124,6 +178,7 @@ public class PlayerAttackController : MonoBehaviour
         swordSpeed = 200.0f;
         holding = false;
         timer = 0.0f;
+        fired = false;
     }
 
     // Logic for Ignoring collision with tilemap

@@ -6,11 +6,11 @@ public class PhysicsObject : MonoBehaviour
 {
     public float gravityModifier = 1f;
     public float minGroundNormalY = 0.65f;  // Normal at which slopes are considered standable.
+    public bool grounded;
 
     // Allow child classes to modify these.
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
-    protected bool grounded;
     protected Vector2 groundNormal;
     protected Vector2 targetVelocity;
 
@@ -21,13 +21,18 @@ public class PhysicsObject : MonoBehaviour
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
 
+    private int downMask;
+    private int upMask;
+
     void OnEnable ()
     {
         rb2d = GetComponent<Rigidbody2D>();
 
         // Use the layer collisions defined in Unity for the current GameObject.
         contactFilter.useTriggers = false;
-        contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
+        downMask = Physics2D.GetLayerCollisionMask(gameObject.layer);
+        upMask = downMask & (1 << 8);
+        contactFilter.SetLayerMask(downMask);
         contactFilter.useLayerMask = true;
 	}
 
@@ -67,6 +72,10 @@ public class PhysicsObject : MonoBehaviour
         if (distance > minMoveDistance)
         {
             // Get a list of all collisions 
+            if (velocity.y > 0)
+                contactFilter.SetLayerMask(upMask);
+            else
+                contactFilter.SetLayerMask(downMask);
             int count = rb2d.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
 
             hitBufferList.Clear();

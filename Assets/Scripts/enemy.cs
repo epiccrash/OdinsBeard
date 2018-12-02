@@ -22,7 +22,10 @@ public class enemy : MonoBehaviour {
     private int attackDirection;
     private float timer;
     private bool needIni; //to initialize neutral() and divebomb()
-    
+
+    public float hp;
+    bool dead;
+
     GameObject character;
     Vector3 characterPos;
 
@@ -39,23 +42,35 @@ public class enemy : MonoBehaviour {
         attackDirection = 0;
         needIni = true;
         character = GameObject.Find("Player");
+
+        dead = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(timer);
-        if(mode == 0)
+        if (!dead)
         {
-            Neutral();
-        }
+            //Debug.Log(timer);
+            if (mode == 0)
+            {
+                Neutral();
+            }
 
-        else if(mode == 1)
-        {
-            Divebomb();
-        }
+            else if (mode == 1)
+            {
+                Divebomb();
+            }
 
-        startPos = transform.position;
+            startPos = transform.position;
+        } else {
+            // Added in for death effect
+            transform.Translate(Vector3.down * 5 * Time.deltaTime, Space.World);
+            transform.Rotate(Vector3.forward * 10, Space.Self);
+            if (!GetComponent<SpriteRenderer>().isVisible) {
+                Destroy(this.gameObject);
+            }
+        }
     }
 
     void Neutral()
@@ -120,4 +135,25 @@ public class enemy : MonoBehaviour {
         distance = Math.Abs(transform.position.x - characterPos.x);
         return distance;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Sword")
+        {
+            hp--;
+        }
+        if (collision.gameObject.tag == "Projectile")
+        {
+            hp -= 0.5f;
+        }
+
+        if (hp < 0.5f)
+        {
+            dead = true;
+            GetComponent<Collider2D>().enabled = false;
+        }
+    }
+
+
+
 }
