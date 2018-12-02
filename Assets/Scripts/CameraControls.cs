@@ -81,11 +81,7 @@ public class CameraControls : MonoBehaviour {
 			cameraposition.y = Mathf.SmoothDamp (cameraposition.y, playerposition.y + yOffset, ref yVelocity, .75f/cameraSpeed);
 			transform.position = cameraposition;
 			if(cameraposition.y == playerposition.y) Ytracking = false;
-		}      
-        
-        /*mainCam.transform.position = new Vector3(
-           Mathf.Clamp(pX, minCamX, maxCamX),
-            pY + 1.48f, -10.0f);*/
+		}
 
 	}
 

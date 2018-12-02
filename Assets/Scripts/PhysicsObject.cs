@@ -71,7 +71,6 @@ public class PhysicsObject : MonoBehaviour
         float distance = move.magnitude;
         if (distance > minMoveDistance)
         {
-            // Get a list of all collisions 
             if (velocity.y > 0)
                 contactFilter.SetLayerMask(upMask);
             else
@@ -85,13 +84,13 @@ public class PhysicsObject : MonoBehaviour
             }
             for (int i = 0; i < hitBufferList.Count; i++)
             {
+                Debug.Log(hitBufferList[i].transform.gameObject.name);
                 Vector2 currentNormal = hitBufferList[i].normal;
                 if (currentNormal.y > minGroundNormalY)
                 {
                     grounded = true;  // Object will land on ground. 
                     if (yMovement)
                     {
-
                         // Prevent all movement along the x axis.
                         groundNormal = currentNormal;
                         currentNormal.x = 0;

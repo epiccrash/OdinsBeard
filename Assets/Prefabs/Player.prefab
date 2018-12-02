@@ -61,7 +61,6 @@ GameObject:
   - component: {fileID: 95139952482719088}
   - component: {fileID: 114253866603664642}
   - component: {fileID: 114094796571782260}
-  - component: {fileID: 114996464156235572}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -350,28 +349,6 @@ MonoBehaviour:
   hp2: {fileID: 0}
   hp3: {fileID: 0}
   livesText: {fileID: 0}
---- !u!114 &114996464156235572
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1880056177164616}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3343d5b4a625048acb8b61d1fd2f2ec6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 0
-  lives: 0
-  alive: 0
-  mainCam: {fileID: 0}
-  tilemapCollider: {fileID: 0}
-  platformCollider: {fileID: 0}
-  maxJumpTime: 0.5
-  speed: 7
-  fallMultiplier: 2.5
-  lowJumpMultiplier: 2
-  jumpTakeOffSpeed: 7
 --- !u!212 &212458019121433942
 SpriteRenderer:
   m_ObjectHideFlags: 1

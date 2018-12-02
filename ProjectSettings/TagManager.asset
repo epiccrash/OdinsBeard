@@ -12,6 +12,7 @@ TagManager:
   - Bound
   - Projectile
   - EnemySword
+  - One Way
   layers:
   - Default
   - TransparentFX
@@ -24,6 +25,9 @@ TagManager:
   - 
   - 
   - 
+  - Player
+  - Enemy
+  - OneWay
   - 
   - 
   - 

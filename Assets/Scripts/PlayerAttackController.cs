@@ -36,8 +36,9 @@ public class PlayerAttackController : MonoBehaviour
     private Vector3 originalPos;
     private Quaternion originalRot;
 
-    private PlayerController playerController;
     public GameObject Projectile;
+    // Player Controller
+    private PlayerController playerController;
 
     // Use this for initialization
     void Start ()
@@ -54,6 +55,13 @@ public class PlayerAttackController : MonoBehaviour
         // Initialize the sword box's collider and disable it
         swordCollider = swordBox.GetComponent<BoxCollider2D>();
         swordCollider.enabled = false;
+
+        // Initialize the pinwheel collider and disable it.
+        pinwheelCollider = pinwheelBox.GetComponent<BoxCollider2D>();
+        pinwheelCollider.enabled = false;
+
+        // Iinitialize PlayerController
+        playerController = GetComponent<PlayerController>();
 
         // Reset timer and variables
         timer = 0.0f;
@@ -112,6 +120,30 @@ public class PlayerAttackController : MonoBehaviour
             pinwheelCollider.enabled = false;
             pinwheeling = false;
         }
+        // Player is holding down Enter
+        else if (Input.GetKey(KeyCode.Return))
+        {
+            if (!playerController.grounded)
+            {
+                swordCollider.enabled = false;
+                attacking = false;
+
+                pinwheelCollider.enabled = true;
+                pinwheeling = true;
+            }
+            else
+            {
+                pinwheelCollider.enabled = false;
+                pinwheeling = false;
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Return))
+        {
+            pinwheelCollider.enabled = false;
+            pinwheeling = false;
+        }
+
 
         if (attacking)
         {
