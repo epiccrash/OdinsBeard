@@ -35,6 +35,8 @@ public class PlayerController : PhysicsObject
     public float minCamX = -16.6f;
     public float maxCamX = 60.0f;
 
+    public float minCamY = -5.0f;
+
     public float maxInvulnTime = 3.0f;
     private float invulnTimer = 0.0f;
 
@@ -45,6 +47,12 @@ public class PlayerController : PhysicsObject
     public GameObject hp2;
     public GameObject hp3;
     public GameObject livesText;
+
+    public LevelEnd LevelEndScript;
+
+    private int invisTimer;
+
+    private bool isGrounded;
 
     // Use this for initialization
     void Start ()
@@ -70,7 +78,10 @@ public class PlayerController : PhysicsObject
         invulnerable = false;
 
         pinwheeling = false;
-	}
+        invisTimer = 0;
+
+        isGrounded = true;
+    }
 
     // Tap Jump activates falling animation but player doesn't immediately break out of it
     // 
@@ -78,6 +89,15 @@ public class PlayerController : PhysicsObject
 
     protected override void ComputeVelocity()
     {
+        //Code to act in "Update:
+        if (invisTimer != 0)
+        {
+            invisTimer--;
+            if (invisTimer == 0)
+            {
+                GetComponent<SpriteRenderer>().enabled = true;
+            }
+        }
         // base.ComputeVelocity();
         Vector2 move = Vector2.zero;
 
@@ -138,6 +158,7 @@ public class PlayerController : PhysicsObject
         if (Input.GetButtonDown("Jump") && grounded)
         {
             velocity.y = jumpTakeOffSpeed;
+            SoundManager.S.MakePlayerJump();
         }
         else if (Input.GetButtonUp("Jump"))
         {
@@ -150,7 +171,7 @@ public class PlayerController : PhysicsObject
         }
         /* End of code block I moved. */
 
-        targetVelocity = move * maxSpeed;
+        //targetVelocity = move * maxSpeed;
 
         targetVelocity = move * maxSpeed;
 
@@ -176,6 +197,9 @@ public class PlayerController : PhysicsObject
             sp.color = col;
 
             invulnTimer += Time.deltaTime;
+            if (invulnTimer >= maxInvulnTime / 2) {
+                isHit = false;
+            }
             if (invulnTimer >= maxInvulnTime)
             {
                 invulnTimer = 0.0f;
@@ -194,11 +218,11 @@ public class PlayerController : PhysicsObject
         animator.SetBool("alive", alive);
         animator.SetBool("attacking", attackController.attacking || attackController.holding);
         animator.SetBool("pinwheeling", pinwheeling);
-        animator.SetBool("attacking", attackController.attacking);
+        //animator.SetBool("attacking", attackController.attacking);
         animator.SetBool("pinwheeling", attackController.pinwheeling);
         animator.SetBool("falling", falling);
         animator.SetBool("grounded", grounded);
-        //animator.SetBool("hit", isHit);
+        animator.SetBool("hit", isHit);
         animator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
     }
 
@@ -226,7 +250,6 @@ public class PlayerController : PhysicsObject
     public void TakeDamage() {
 
         setHPState(false);
-        Debug.Log("Took damage");
         hp--;
         if (hp == 0) {
             lives--;
@@ -237,6 +260,7 @@ public class PlayerController : PhysicsObject
             hp2.SetActive(true);
             hp3.SetActive(true);
             transform.position = respawnPosition;
+            LevelEndScript.animateRespawn();
         }
 
         if (lives == 0) {
@@ -257,13 +281,50 @@ public class PlayerController : PhysicsObject
             //Debug.Log("Player taking Damage");
             TakeDamage();
             invulnerable = true;
+
+
+            /*Vector3 dir = new Vector3(collision.contacts[0].point.x,
+                                     collision.contacts[0].point.x,
+                                      transform.position.z) - transform.position;
+            dir = -dir.normalized;
+
+
+            if (isFacingRight) rb.AddForce(dir * 3);
+            else rb.AddForce(dir * -3);*/
+
+            if (isFacingRight) rb.AddForce(8 * Vector3.left);
+            else rb.AddForce(8 * Vector3.right);
+
+            isHit = true;
         }
 
         if (collision.gameObject.tag == "Bound")
         {
             //Debug.Log("Player touched bounds");
+            LevelEndScript.animateFall();
             transform.position = respawnPosition;
             TakeDamage();
+            invisTimer = 20;
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
+
+        if (collision.gameObject.tag == "Level Map") {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Level Map")
+        {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Level Map")
+        {
+            isGrounded = false;
         }
     }
 
@@ -275,6 +336,7 @@ public class PlayerController : PhysicsObject
         {
             TakeDamage();
             invulnerable = true;
+
         }
 
     }

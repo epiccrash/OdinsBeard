@@ -27,6 +27,11 @@ public class GolemAi : MonoBehaviour {
 
     GameObject player;
 
+    // Added for animation
+    private bool attacking;
+    private bool hurt;
+    Animator animator;
+
 	// Use this for initialization
 	void Start () {
         //Flag for being turned into stone
@@ -60,6 +65,9 @@ public class GolemAi : MonoBehaviour {
         //Flags for how many frames the AI will spend in each turn
         framesMoving = 9 * 24;
         framesStone = 3 * 24;
+
+        // Added for animation
+        animator = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -110,7 +118,7 @@ public class GolemAi : MonoBehaviour {
                 }
 
                 //Attacking vs. movement controls
-                if (getDistanceToPlayer() < 6)
+                if (getDistanceToPlayer() < 2)
                 {
                     if (attackCount < timeToAttack)
                     {
@@ -118,15 +126,17 @@ public class GolemAi : MonoBehaviour {
                     }
                     else
                     {
+                        SoundManager.S.MakeGolemThrow();
                         if (player.transform.position.x < transform.position.x)
                         {
-                            player.GetComponent<Rigidbody2D>().AddForce(new Vector2(-16, 0), ForceMode2D.Impulse);
+                            player.GetComponent<Rigidbody2D>().AddForce(new Vector2(-12, 0), ForceMode2D.Impulse);
                         }
                         else
                         {
-                            player.GetComponent<Rigidbody2D>().AddForce(new Vector2(16, 0), ForceMode2D.Impulse);
+                            player.GetComponent<Rigidbody2D>().AddForce(new Vector2(12, 0), ForceMode2D.Impulse);
                         }
                         attackCount = 0;
+                        attacking = false;
                     }
                 }
                 else
@@ -151,8 +161,32 @@ public class GolemAi : MonoBehaviour {
 
             }
         }
+
+        animator.SetBool("alive", alive);
+        animator.SetBool("attacking", attacking);
+        animator.SetBool("stone", stone);
+        animator.SetBool("hurt", hurt);
+        animator.SetFloat("hp", hp);
 	}
 
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "Sword" && !stone)
+        {
+            print("Golem was attacked.");
+            triggered = true;
+            switchStone();
+            hp--;
+            if (hp == 0)
+            {
+                alive = false;
+                tag = "Stone";
+            }
+        }
+    }
+
+    /*
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Sword" && !stone)
@@ -166,11 +200,11 @@ public class GolemAi : MonoBehaviour {
                 alive = false;
             }
         }
-    }
+    }*/
 
     void switchStone()
     {
-        print("Golem Transforms");
+        //print("Golem Transforms");
         if (stone)
         {
             GetComponent<SpriteRenderer>().sprite = normalSprite;
@@ -178,6 +212,7 @@ public class GolemAi : MonoBehaviour {
         else
         {
             GetComponent<SpriteRenderer>().sprite = stoneSprite;
+            SoundManager.S.MakeGolemSolidify();
         }
         stone = !stone;
         stoneCount = 0;

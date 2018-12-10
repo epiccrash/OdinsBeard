@@ -29,6 +29,13 @@ public class enemy : MonoBehaviour {
     GameObject character;
     Vector3 characterPos;
 
+    // Added for animation
+    private bool attacking;
+    private bool alerted;
+    private bool alive;
+    private bool hurt;
+    private Animator animator;
+
     void Start()
     {
         distToPlayer = 5.0f;
@@ -44,6 +51,13 @@ public class enemy : MonoBehaviour {
         character = GameObject.Find("Player");
 
         dead = false;
+
+        // Added for animation
+        attacking = false;
+        alerted = false;
+        alive = true;
+        hurt = false;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -71,17 +85,32 @@ public class enemy : MonoBehaviour {
                 Destroy(this.gameObject);
             }
         }
+
+        animator.SetBool("attacking", attacking);
+        animator.SetBool("alerted", alerted);
+        animator.SetBool("alive", alive);
+        animator.SetBool("hurt", hurt);
     }
 
     void Neutral()
     {
+        // Added for animation
+        attacking = false;
+        hurt = false;
+        if (attackDirection < 0) GetComponent<SpriteRenderer>().flipX = true;
+        else GetComponent<SpriteRenderer>().flipX = false;
+
         timer += 1;
-        if(Distance() < distToPlayer && timer > 150)
+        if (Distance() < distToPlayer)
         {
-            mode = 1; //switch to divebomb mode
-            needIni = true;
-            timer = 0;
-            return;
+            // Added for animation
+            alerted = true;
+            if (timer > 150) {
+                mode = 1; //switch to divebomb mode
+                needIni = true;
+                timer = 0;
+                return;
+            }
         }
         if(needIni)
         {
@@ -96,6 +125,10 @@ public class enemy : MonoBehaviour {
 
     void Divebomb()
     {
+        // Added for animation
+        alerted = false;
+        attacking = true;
+
         timer += 1;
         if(needIni)
         {
@@ -126,6 +159,8 @@ public class enemy : MonoBehaviour {
         verSpeed = StartVerSpeed;
         horiSpeed = StartHoriSpeed * attackDirection;
         needIni = false;
+
+        SoundManager.S.makeWoosh();
     }
 
     float Distance()
@@ -141,16 +176,21 @@ public class enemy : MonoBehaviour {
         if (collision.gameObject.tag == "Sword")
         {
             hp--;
+            hurt = true;
         }
         if (collision.gameObject.tag == "Projectile")
         {
             hp -= 0.5f;
+            hurt = true;
         }
 
         if (hp < 0.5f)
         {
             dead = true;
             GetComponent<Collider2D>().enabled = false;
+
+            // Added in for animation
+            alive = false;
         }
     }
 

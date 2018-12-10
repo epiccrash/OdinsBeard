@@ -61,6 +61,7 @@ public class CameraControls : MonoBehaviour {
 
 		Vector3 bias = (Vector3.one * .5f - Camera.main.WorldToViewportPoint(playerposition));
 
+        Debug.Log(Camera.main.WorldToViewportPoint(playerposition));
 		Debug.Log(bias);
 
 

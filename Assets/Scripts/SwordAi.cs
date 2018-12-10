@@ -18,6 +18,15 @@ public class SwordAi : MonoBehaviour {
     public int swingFrames;
     public int delayAfterAttack;
 
+    // Added for animation
+    private bool walking;
+    private bool hurt;
+    private bool alive;
+    private bool animAttacking;
+    Animator animator;
+    private float deathWait;
+    private float hurtTimer;
+
 	// Use this for initialization
 	void Start () {
         startPos = transform.position;
@@ -63,6 +72,12 @@ public class SwordAi : MonoBehaviour {
         //delayAfterAttack is how many frames the ai will hold its position after attacking
         //delayAfterAttack = 125;
 
+        // Added for animation
+        walking = false;
+        hurt = false;
+        alive = true;
+        animAttacking = false;
+        animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -87,13 +102,29 @@ public class SwordAi : MonoBehaviour {
 
         if (hp > 0)
         {
-            if (getDistanceToPlayer() < 2.5)
+            //if (getDistanceToPlayer() < 2.5)
+            if (getDistanceToPlayer() < 5.0f)
             {
                 attacking = true;
+                animAttacking = true;
             }
 
-            if (attacking)
+            if (hurt)
             {
+                sword.GetComponent<Collider2D>().enabled = false;
+                if (hurtTimer >= 0.5f) {
+                    hurtTimer = 0.0f;
+                    hurt = false;
+                    sword.GetComponent<Collider2D>().enabled = true;
+                }    
+                hurtTimer += Time.deltaTime;
+            }
+            else if (attacking)
+            {
+
+                // Added for animation
+                walking = false;
+
                 //Grabs pivot object, finds rotation, checks if its good, rotates if not, holds if so, waits, then resets.
                 if (count < 25)
                 {
@@ -101,7 +132,6 @@ public class SwordAi : MonoBehaviour {
                 }
                 else
                 {
-
                     if (count < (25 + swingFrames))
                     {
                         //Rotate the sword
@@ -117,14 +147,18 @@ public class SwordAi : MonoBehaviour {
                     }
                     else
                     {
+                        animAttacking = false;
+                        walking = true;
                         //This code executes once the slash is done
                         if (count < (delayAfterAttack + swingFrames))
                         {
+                            sword.GetComponent<Collider2D>().enabled = false;
                             //Hold position to create delay
                             count++;
                         }
                         else
                         {
+                            sword.GetComponent<Collider2D>().enabled = true;
                             //Reset!
                             if (facingLeft)
                             {
@@ -142,6 +176,9 @@ public class SwordAi : MonoBehaviour {
             }
             else
             {
+                // Added for animation
+                walking = true;
+
                 if (headingLeft)
                 {
                     transform.position += new Vector3(-speed, 0f, 0f);
@@ -165,23 +202,31 @@ public class SwordAi : MonoBehaviour {
         }
         else
         {
-            //Dead!
-            if (count < 25)
+            deathWait += Time.deltaTime;
+            if (deathWait > 1.5f)
             {
-                transform.position += new Vector3(0, .2f, 0);
+                //Dead!
+                if (count < 25)
+                {
+                    transform.position += new Vector3(0, .2f, 0);
+                }
+                else if (count < 100)
+                {
+                    transform.position += new Vector3(0, -.6f, 0);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+                count++;
             }
-            else if (count < 100)
-            {
-                transform.position += new Vector3(0, -.6f, 0);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-            count++;
         }
-		
-	}
+
+        animator.SetBool("alive", alive);
+        animator.SetBool("walking", walking);
+        animator.SetBool("attacking", animAttacking);
+        animator.SetBool("hurt", hurt);
+    }
 
     float getDistanceToPlayer()
     {
@@ -195,14 +240,18 @@ public class SwordAi : MonoBehaviour {
         {
             //print("AI Took damage");
             hp--;
+            hurt = true;
         }
         if (collision.gameObject.tag == "Projectile") {
             print("AI Took Damage");
             hp -= 0.5f;
+            hurt = true;
         }
 
         if (hp < 0.5f) {
             die();
+            // Added for animation
+            alive = false;
         }
     }
 

@@ -90,6 +90,7 @@ public class PlayerAttackController : MonoBehaviour
             {
                 swordCollider.enabled = true;
                 attacking = true;
+                SoundManager.S.MakeEmptySlash();
             }
             if (attacking && playerController.hp == 3 && !fired)
             {
@@ -130,6 +131,8 @@ public class PlayerAttackController : MonoBehaviour
 
                 pinwheelCollider.enabled = true;
                 pinwheeling = true;
+
+                SoundManager.S.MakeEmptySlash();
             }
             else
             {

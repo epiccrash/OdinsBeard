@@ -6,15 +6,27 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/Sword Scene.unity
+    path: Assets/Discarded Assets/Sword Scene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 2044179850dac714191ed2213f715e25
   - enabled: 1
     path: Assets/Scenes/Opening.unity
     guid: 4d753772795bf4670820a0ccea57e129
   - enabled: 1
     path: Assets/Scenes/level 1.unity
     guid: cfa2b0c48b0f74391aacffbbe2e7e3df
+  - enabled: 0
+    path: Assets/Discarded Assets/Level 2.unity
+    guid: 8c693584d762b984cb6d9db6c318555e
+  - enabled: 0
+    path: Assets/Scenes/Level 2 (option 2).unity
+    guid: 029bc3c5527f3437e8b79871ef8b2e08
   - enabled: 1
     path: Assets/Scenes/Level 2.unity
-    guid: 8c693584d762b984cb6d9db6c318555e
+    guid: d167db0cc40de4d86aa02465acc7f3a1
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 18c04b5fb6c2f452398a4e69f774b66e
   m_configObjects: {}

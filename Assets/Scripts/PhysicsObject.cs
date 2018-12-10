@@ -84,7 +84,6 @@ public class PhysicsObject : MonoBehaviour
             }
             for (int i = 0; i < hitBufferList.Count; i++)
             {
-                Debug.Log(hitBufferList[i].transform.gameObject.name);
                 Vector2 currentNormal = hitBufferList[i].normal;
                 if (currentNormal.y > minGroundNormalY)
                 {

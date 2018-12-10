@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f531440fe302dfa49ba146252ef261e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdTime: 0.75
+  holdTime: 0.5
   swordSpeed: 200
   attacking: 0
   holding: 0
@@ -349,6 +349,7 @@ MonoBehaviour:
   hp2: {fileID: 0}
   hp3: {fileID: 0}
   livesText: {fileID: 0}
+  LevelEndScript: {fileID: 0}
 --- !u!212 &212458019121433942
 SpriteRenderer:
   m_ObjectHideFlags: 1

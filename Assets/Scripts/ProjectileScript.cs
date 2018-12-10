@@ -24,9 +24,14 @@ public class ProjectileScript : MonoBehaviour {
 	void Update () 
     {
         if (shootToRight)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
             transform.position = transform.position + Vector3.right * 0.3f;
-        else
+        }
+        else {
+            GetComponent<SpriteRenderer>().flipX = true;
             transform.position = transform.position + Vector3.left * 0.3f;
+        }
 
         // Kills the projectile if it goes off-screen
         if (!GetComponent<Renderer>().isVisible) {

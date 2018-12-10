@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 61772340941692046}
   - component: {fileID: 114644777477291458}
   - component: {fileID: 114350265376343704}
+  - component: {fileID: 95531865565528146}
   m_Layer: 2
   m_Name: Swordsman
   m_TagString: Enemy
@@ -117,7 +118,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.51917124, y: -0.06489408}
+  m_Offset: {x: 2, y: -0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -128,7 +129,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 7.0874586, y: 6.4384937}
+  m_Size: {x: 5, y: 3}
   m_EdgeRadius: 0
 --- !u!61 &61772340941692046
 BoxCollider2D:
@@ -146,7 +147,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.09, y: 1.755}
+    oldSize: {x: 2.2222223, y: 2.2222223}
     newSize: {x: 2.32, y: 2.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -155,6 +156,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.75}
   m_EdgeRadius: 0
+--- !u!95 &95531865565528146
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1614909025228284}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6c6c1d426667f424e89141c887d0518b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114350265376343704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -389,7 +408,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5849056, g: 0.35118544, b: 0.013794942, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4808,7 +4827,7 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1882651095620264}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -4883,7 +4902,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: edbf2693c398443228ff0e50497bc179, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b64e4a5f8b18b49878b29d845450d3fe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
